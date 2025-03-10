@@ -153,7 +153,7 @@ public class SalesService {
                 .collect(Collectors.toList());
     }
 
-    @Loggable(operation = "获取销售概览数据")
+    // @Loggable(operation = "获取销售概览数据")
     public SalesOverviewDTO getSalesOverview(LocalDate startDate, LocalDate endDate) {
         LocalDateTime start = startDate.atStartOfDay();
         LocalDateTime end = endDate.atTime(23, 59, 59);
@@ -163,14 +163,14 @@ public class SalesService {
         // 计算总销售额和订单数
         Double totalSales = calculateTotalSales(start, end);
         overview.setTotalSales(BigDecimal.valueOf(totalSales != null ? totalSales : 0.0));
-
-        Long orderCount = salesRepository.countBySalesDateBetween(start, end);
-        overview.setTotalOrders(orderCount);
+        
+        Long sumSalesQuantity = salesRepository.sumSalesQuantityBySalesDateBetween(start, end);
+        overview.setTotalOrders(sumSalesQuantity);
 
         // 计算平均订单金额
-        if (orderCount > 0) {
+        if (sumSalesQuantity > 0) {
             overview.setAverageOrderValue(overview.getTotalSales().divide(
-                    BigDecimal.valueOf(orderCount), 2, BigDecimal.ROUND_HALF_UP));
+                    BigDecimal.valueOf(sumSalesQuantity), 2, BigDecimal.ROUND_HALF_UP));
         } else {
             overview.setAverageOrderValue(BigDecimal.ZERO);
         }

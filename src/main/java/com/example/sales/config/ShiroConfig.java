@@ -37,12 +37,13 @@ public class ShiroConfig {
 
         // 配置访问权限
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-        // 通用OPTIONS请求放行（需放在最前面）
-        filterChainDefinitionMap.put("/**", "anon[OPTIONS]");
-        
+        filterChainDefinitionMap.put("/**", "anon[httpMethod=OPTIONS]");
         // 精确放行OPTIONS预检请求
-        filterChainDefinitionMap.put("/auth/login", "anon[OPTIONS]");
-        filterChainDefinitionMap.put("/auth/register", "anon[OPTIONS]");
+        filterChainDefinitionMap.put("/sales/overview/dashboard", "anon[httpMethod=OPTIONS]");
+        filterChainDefinitionMap.put("/auth/login", "anon[httpMethod=OPTIONS]");
+        filterChainDefinitionMap.put("/auth/register", "anon[httpMethod=OPTIONS]");
+        // 通用OPTIONS请求放行（需放在最前面）
+        filterChainDefinitionMap.put("/**", "anon[httpMethod=OPTIONS]");
         
         // 其他过滤器配置
         filterChainDefinitionMap.put("/auth/**", "anon");
@@ -69,7 +70,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/data/storage/content", "authc");
         filterChainDefinitionMap.put("/data/storage", "authc");
         filterChainDefinitionMap.put("/api/storage/**", "authc");
-        filterChainDefinitionMap.put("/sales/overview/dashboard", "authc");
         
         
         // 其他所有路径需要认证
@@ -78,6 +78,7 @@ public class ShiroConfig {
        // shiroFilterFactoryBean.setSuccessUrl("/");  // 修改为具体的业务页面
 //shiroFilterFactoryBean.setUnauthorizedUrl("/403"); 
         
+        filterChainDefinitionMap.put("/**", "anon[httpMethod=OPTIONS]");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }

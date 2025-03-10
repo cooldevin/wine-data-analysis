@@ -107,6 +107,9 @@ public interface SalesRepository extends JpaRepository<Sales, Long>, JpaSpecific
 
     Long countBySalesDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
+    @Query("SELECT SUM(s.salesQuantity) FROM Sales s WHERE s.salesDate BETWEEN ?1 AND ?2")
+    Long sumSalesQuantityBySalesDateBetween(LocalDateTime start, LocalDateTime end);
+
     @Query("SELECT s.productName, SUM(s.salesQuantity), SUM(s.totalAmount) " +
            "FROM Sales s " +
            "WHERE s.salesDate BETWEEN :startDate AND :endDate " +

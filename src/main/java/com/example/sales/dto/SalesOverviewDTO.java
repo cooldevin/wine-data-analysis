@@ -12,7 +12,17 @@ public class SalesOverviewDTO {
     private List<TopProductDTO> topProducts;
     private Map<String, BigDecimal> salesTrend;
 
+    private Double growthRate;
+
     public SalesOverviewDTO() {}
+
+    public Double getGrowthRate() {
+        return growthRate;
+    }
+
+    public void setGrowthRate(Double growthRate) {
+        this.growthRate = growthRate;
+    }
 
     public BigDecimal getTotalSales() {
         return totalSales;

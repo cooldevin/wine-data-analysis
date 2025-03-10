@@ -24,17 +24,17 @@ public class SalesOverviewController {
     public ResponseEntity<SalesOverviewDTO> getDashboardData(
             @RequestParam(required = false) LocalDate startDate,
             @RequestParam(required = false) LocalDate endDate) {
-        
         if (startDate == null) {
-            startDate = LocalDate.now().minusMonths(1);
+            startDate = LocalDate.ofEpochDay(0); // 设置为时间起始点
         }
         if (endDate == null) {
-            endDate = LocalDate.now();
+            endDate = LocalDate.now().minusDays(1); // 设置为昨天
         }
 
         SalesOverviewDTO overview = salesService.getSalesOverview(startDate, endDate);
         return ResponseEntity.ok(overview);
     }
-
+           
+    
 
 }
